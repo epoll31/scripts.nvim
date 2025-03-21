@@ -1,5 +1,8 @@
 local M = {}
 
+-- TODO: define opts (dir_name, file_name)
+-- TODO: run last script: run the previously ran script
+
 local function find_scripts_folder()
 	local scripts_folder = vim.fs.find(".nvim", { upward = true, type = "directory" })[1]
 
