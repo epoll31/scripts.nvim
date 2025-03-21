@@ -1,0 +1,5 @@
+{
+  "default": "echo hello another",
+  "build": "echo build",
+  "dev": "echo dev"
+}
