@@ -1,5 +1,16 @@
 {
-  "default": "echo hello another",
-  "build": "echo build",
-  "dev": "echo dev"
+  "$schema": "../schemas/scripts.schema.json",
+  "scripts": {
+    "test": {
+      "cmd": "echo test",
+      "show_output": true
+    },
+    "test2": {
+      "cmd": "echo test2"
+    },
+    "test3": {
+      "cmd": "echo test3",
+      "show_output": false
+    }
+  }
 }

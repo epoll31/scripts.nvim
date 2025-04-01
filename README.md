@@ -6,15 +6,15 @@
 ```lua
 
 {
-    "epoll31/script_runner.nvim",
+    "epoll31/scripts.nvim",
     dependencies = { "nvim-telescope/telescope.nvim" },
     config = function()
-	    local sp = require("script_runner")
+	    local sp = require("scripts")
 	    sp.setup()
 
-	    vim.keymap.set({ "n", "i" }, "<C-Enter>", require("script_runner").run_default_script)
-	    vim.keymap.set("n", "<leader>ss", require("script_runner").script_picker)
-	    vim.keymap.set("n", "<leader>fs", require("script_runner").script_picker)
+	    vim.keymap.set({ "n", "i" }, "<C-Enter>", require("scripts").run_default_script)
+	    vim.keymap.set("n", "<leader>ss", require("scripts").script_picker)
+	    vim.keymap.set("n", "<leader>fs", require("scripts").script_picker)
     end,
 }
 ```
