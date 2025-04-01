@@ -29,6 +29,7 @@ function M.parse(filepath)
 		if type(script) ~= "table" or type(script.cmd) ~= "string" then
 			return nil, ("Invalid script entry for '%s'"):format(name)
 		end
+		script.name = name
 	end
 
 	---@type ScriptFile
@@ -37,22 +38,6 @@ function M.parse(filepath)
 	}
 
 	return result, nil
-end
-
----Converts a ScritFile table into an array of name-Script pairs
----@param scripts ScriptFile
----@return ScriptPairs
-function M.get_pairs(scripts)
-	local script_pairs = {}
-
-	for name, script in pairs(scripts.scripts) do
-		table.insert(script_pairs, {
-			name = name,
-			script = script,
-		})
-	end
-
-	return script_pairs
 end
 
 return M

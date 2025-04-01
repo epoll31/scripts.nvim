@@ -12,12 +12,44 @@
 	    local scripts = require("scripts")
 	    scripts.setup()
 
-        vim.keymap.set("n", "<leader>f<Enter>", require("scripts.api").picker, {
-            desc = "[F]ind Script",
+        vim.keymap.set("n", "<leader>fss", function()
+            require("scripts.api").picker("all")
+        end, {
+            desc = "[F]ind [S]cript",
+        })
+        vim.keymap.set("n", "<leader>fsh", function()
+            require("scripts.api").picker("history")
+        end, {
+            desc = "[F]ind [S]cript from [H]istory",
+        })
+        vim.keymap.set("n", "<C-Enter>", function()
+            require("scripts.api").run_recent()
+        end, {
+            desc = "Run Previous Script",
         })
     end,
 }
 ```
+
+#### Default Configuration
+
+Here are the default options.
+
+```lua
+{
+	scripts_dir = ".nvim",
+	scripts_file = "scripts.json",
+	storage_dir = vim.fn.stdpath("state") .. "/scripts_storage/", -- directory where history files are saved
+	default_behaviour = {
+		show_output = true,
+	},
+	term_output = {
+		height = 15,
+	},
+}
+
+```
+
 
 ## Scripts File
 
@@ -51,5 +83,6 @@ You can override the search folder name (`scripts_dir`) and file name (`scripts_
 ### Script Picker
 
 To open the scripts picker, run `:ScriptsPicker`.
+To run the previously ran script, run `:ScriptsRunPrevious`.
 
 

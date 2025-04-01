@@ -1,11 +1,24 @@
+local storage = require("scripts.storage")
 local utils = require("scripts.utils")
-local config = require("scripts.config")
+local run = require("scripts.run")
+local find_scripts = require("scripts.find_scripts")
 
 local M = {}
 
 ---Open a Telescope script picker.
-function M.picker()
-	local scripts = utils.find_scripts(config.options.scripts_dir, config.options.scripts_file)
+---@param source nil | 'all' | 'history'
+function M.picker(source)
+	local script_map = find_scripts().scripts
+	---@type table<Script>
+	local scripts = {}
+
+	for _, script in pairs(script_map) do
+		table.insert(scripts, script)
+	end
+
+	if source == "history" then
+		scripts = storage.get_history()
+	end
 
 	if not scripts then
 		utils.info("No scripts available.")
@@ -20,38 +33,24 @@ function M.picker()
 	utils.picker(scripts)
 end
 
--- function M.run_default_in_window()
--- 	local scripts = utils.find_scripts(config.options.scripts_dir, config.options.scripts_file)
---
--- 	if not scripts then
--- 		utils.info("No scripts available.")
--- 		return
--- 	end
---
--- 	local default = utils.get_default_script(scripts)
--- 	if not default then
--- 		utils.info("No default script specified.")
--- 		return
--- 	end
---
--- 	utils.run_in_window(default)
--- end
+---@class Scripts.RunRecent.Opts
+local run_recent_default_opts = {
+	open_picker_on_miss = true,
+}
 
--- function M.run_default_in_cmdline()
--- 	local scripts = utils.find_scripts(config.options.scripts_dir, config.options.scripts_file)
---
--- 	if not scripts then
--- 		utils.info("No scripts available.")
--- 		return
--- 	end
---
--- 	local default = utils.get_default_script(scripts)
--- 	if not default then
--- 		utils.info("No default script specified.")
--- 		return
--- 	end
---
--- 	utils.run_in_cmdline(scripts.default)
--- end
+---Run the most recently ran script.
+---@param opts Scripts.RunRecent.Opts | nil
+function M.run_recent(opts)
+	opts = vim.tbl_deep_extend("force", {}, run_recent_default_opts, opts or {})
 
+	local prev = storage.get_history()[1]
+	if not prev then
+		if opts.open_picker_on_miss then
+			M.picker("all")
+		end
+		return
+	end
+
+	run.run_script(prev)
+end
 return M

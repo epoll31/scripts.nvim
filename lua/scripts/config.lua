@@ -20,7 +20,6 @@ M.options = {}
 ---@param opts Scripts.Config | nil
 function M.setup(opts)
 	M.options = vim.tbl_deep_extend("force", {}, defaults, opts or {})
-	vim.notify(M.options.storage_dir, vim.log.levels.DEBUG)
 	vim.fn.mkdir(M.options.storage_dir, "p")
 end
 
