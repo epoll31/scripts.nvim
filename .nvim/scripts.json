@@ -11,6 +11,14 @@
     "test3": {
       "cmd": "echo test3",
       "show_output": false
+    },
+    "love-shown": {
+      "cmd": "love",
+      "show_output": true
+    },
+    "love-hidden": {
+      "cmd": "love",
+      "show_output": false
     }
   }
 }
