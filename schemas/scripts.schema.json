@@ -3,6 +3,10 @@
   "title": "Scripts JSON",
   "type": "object",
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "The schema to verify this document against."
+    },
     "scripts": {
       "type": "object",
       "patternProperties": {

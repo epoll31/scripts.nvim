@@ -9,12 +9,12 @@
     "epoll31/scripts.nvim",
     dependencies = { "nvim-telescope/telescope.nvim" },
     config = function()
-	    local sp = require("scripts")
-	    sp.setup()
+	    local scripts = require("scripts")
+	    scripts.setup()
 
-	    vim.keymap.set({ "n", "i" }, "<C-Enter>", require("scripts").run_default_script)
-	    vim.keymap.set("n", "<leader>ss", require("scripts").script_picker)
-	    vim.keymap.set("n", "<leader>fs", require("scripts").script_picker)
+        vim.keymap.set("n", "<leader>f<Enter>", require("scripts.api").picker, {
+            desc = "[F]ind Script",
+        })
     end,
 }
 ```
@@ -23,13 +23,26 @@
 
 This plugin will search your cwd and upwards for a folder named `.nvim` that contains a file named `scripts.json`.
 
+You can override the search folder name (`scripts_dir`) and file name (`scripts_file`) in the setup opts.
+
 ### Example File
 
 ``` json
 {
-  "default": "echo default",
-  "build": "echo build",
-  "dev": "echo dev"
+  "$schema": "https://raw.githubusercontent.com/epoll31/scripts.nvim/refs/heads/main/schemas/scripts.schema.json",
+  "scripts": {
+    "test": {
+      "cmd": "echo test",
+    },
+    "test2": {
+      "cmd": "echo test2"
+      "show_output": true
+    },
+    "test3": {
+      "cmd": "echo test3",
+      "show_output": false
+    }
+  }
 }
 ```
 
@@ -37,11 +50,6 @@ This plugin will search your cwd and upwards for a folder named `.nvim` that con
 
 ### Script Picker
 
-To open a script picker, run `:SearchScripts`.
+To open the scripts picker, run `:ScriptsPicker`.
 
-### Run Default Script
-
-To run the default script, run `:RunDefaultScript`.
-
-The default script is the script named `default`.
 

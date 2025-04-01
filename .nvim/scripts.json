@@ -1,5 +1,5 @@
 {
-  "$schema": "../schemas/scripts.schema.json",
+  "$schema": "https://raw.githubusercontent.com/epoll31/scripts.nvim/refs/heads/main/schemas/scripts.schema.json",
   "scripts": {
     "test": {
       "cmd": "echo test",

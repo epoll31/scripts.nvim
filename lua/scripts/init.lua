@@ -1,8 +1,8 @@
 local Config = require("scripts.config")
 local api = require("scripts.api")
 
--- TODO: run last script: run the previously ran script
--- TODO: add option to run not in window
+-- TODO: store previously ran script in storage
+-- TODO: run previously run script
 
 local M = {}
 
