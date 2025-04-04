@@ -27,58 +27,25 @@ end
 ---Opens a Telescope picker to allow the user to select a script to run.
 ---@param scripts table<Script>
 function M.picker(scripts)
-	local actions = require("telescope.actions")
-	local action_state = require("telescope.actions.state")
-	local pickers = require("telescope.pickers")
-	local finders = require("telescope.finders")
-	local entry_display = require("telescope.pickers.entry_display")
-	local conf = require("telescope.config").values
-
-	local opts = {}
-	local displayer = entry_display.create({
-		separator = " ",
-		items = {
-			{ width = 20 },
-			{ remaining = true },
-		},
-	})
-
-	local make_display = function(entry)
-		return displayer({
-			entry.script.name,
-			entry.script.cmd,
+	local items = {}
+	for _, script in ipairs(scripts) do
+		table.insert(items, {
+			label = script.name,
+			cmd = script.cmd,
+			script = script,
 		})
 	end
 
-	pickers
-		.new(opts, {
-			prompt_title = "Run Script",
-			finder = finders.new_table({
-				results = scripts,
-				---@param script Script
-				---@return table
-				entry_maker = function(script)
-					return {
-						value = script,
-						display = make_display,
-						ordinal = script.name,
-
-						script = script,
-					}
-				end,
-			}),
-			sorter = conf.generic_sorter(opts),
-			attach_mappings = function(prompt_bufnr, _)
-				actions.select_default:replace(function()
-					actions.close(prompt_bufnr)
-					local selected_entry = action_state.get_selected_entry()
-					-- print(vim.inspect(selected_entry))
-					script_picked(selected_entry.script)
-				end)
-				return true
-			end,
-		})
-		:find()
+	vim.ui.select(items, {
+		prompt = "Run Script",
+		format_item = function(item)
+			return string.format("%s (%s)", item.label, item.cmd)
+		end,
+	}, function(choice)
+		if choice then
+			script_picked(choice.script)
+		end
+	end)
 end
 
 return M
